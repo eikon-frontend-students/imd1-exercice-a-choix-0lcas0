@@ -1,38 +1,136 @@
 body {
-  font-family: sans-serif;
   text-align: center;
-  background: #f0f0f0;
+  background: #000000;
+  font-family: "Creepster", system-ui;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 42px;
+  filter: brightness(1.3) saturate(0.5);
+}
+.fond-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  pointer-events: none; /* Pour ne pas gêner les clics sur le contenu */
+  display: none;
+}
+.winner .fond-video {
+  display: block;
 }
 h1 {
   margin-top: 20px;
+  color: white;
+  margin-bottom: -1px;
+}
+div {
+  color: white;
 }
 .board {
   display: grid;
   grid-template-columns: repeat(3, 100px);
   grid-template-rows: repeat(3, 100px);
-  gap: 5px;
+  gap: 40px;
   margin: 20px auto;
   width: max-content;
 }
 .cell {
-  background: white;
-  border: 2px solid #333;
   font-size: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  border-radius: 28px;
+  background-image: url(image/cell.png);
+  background-size: 96%;
+  background-repeat: no-repeat;
+  background-position-x: 1px;
+  background-position-y: -1.5px;
+  transition: transform 0.2s ease-in-out;
+}
+.cell:hover {
+  background-image: url(image/cell_variant_hover.png);
+  transform: scale(1.1) translateX(0);
+  animation: cell 0.3s infinite;
+}
+.cell.taken.X {
+  background-image: url(image/cell_x_taken.png);
+  color: #7e0000;
+}
+.cell.taken.O {
+  background-image: url(image/cell_o_taken.png);
+  color: #1e00ff;
 }
 .cell.taken {
   cursor: not-allowed;
+  background-image: url(image/cell_variant_hover.png);
+  color: #7e0000;
 }
 .status {
   margin-top: 20px;
-  font-size: 1.5rem;
+  font-size: 45px;
 }
 .reset {
-  margin-top: 20px;
+  margin-top: 30px;
   padding: 10px 20px;
-  font-size: 1rem;
+  font-size: 1.5rem;
   cursor: pointer;
+  width: 210px;
+  height: 65px;
+  flex-shrink: 0;
+  background-color: transparent;
+  border-color: transparent;
+  color: #ffffff;
+  font-family: "Creepster", system-ui;
+  font-weight: 600;
+  font-style: normal;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  background-image: url(image/button_variant.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.reset:hover {
+  background-image: url(image/button_variant_hover.png);
+  color: #393939;
+  transform: scale(1.1);
+}
+@keyframes cell {
+  0% {
+    transform: scale(1.1) translateX(-1px);
+  }
+  25% {
+    transform: scale(1.1) translateX(1px);
+  }
+  50% {
+    transform: scale(1.1) translateX(-1px);
+  }
+  75% {
+    transform: scale(1.1) translateX(1px);
+  }
+  100% {
+    transform: scale(1.1) translateX(0);
+  }
+}
+@keyframes toRed {
+  from {
+    color: inherit;
+  }
+  to {
+    color: #7e0000;
+    filter: brightness(1.3) saturate(0.4);
+  }
+}
+
+body.winner,
+body.winner h1,
+body.winner .status,
+body.winner .cell,
+body.winner .reset,
+body.winner div {
+  animation: toRed 7s forwards;
 }

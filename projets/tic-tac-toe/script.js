@@ -4,6 +4,7 @@ const resetBtn = document.getElementById("reset");
 
 let currentPlayer = "X";
 let grid = Array(9).fill(null);
+const video = document.querySelector(".fond-video");
 
 const winningCombinations = [
   [0, 1, 2],
@@ -40,6 +41,14 @@ function handleClick(e) {
   if (winner) {
     statusText.textContent =
       winner === "Egalité" ? "Match nul !" : `Joueur ${winner} a gagné !`;
+
+    console.log(winner, video);
+    if (winner !== "Egalité" && video) {
+      document.body.classList.add("winner");
+
+      video.currentTime = 0; // Remet la vidéo au début
+      video.play(); // Relance la vidéo
+    }
   } else {
     currentPlayer = currentPlayer === "X" ? "O" : "X";
     statusText.textContent = `À ${currentPlayer} de jouer`;
@@ -50,11 +59,18 @@ function resetGame() {
   grid = Array(9).fill(null);
   currentPlayer = "X";
   if (!statusText) return;
+  document.body.classList.remove("winner");
   statusText.textContent = "Joueur X commence";
   board.querySelectorAll(".cell").forEach((cell) => {
     cell.textContent = "";
     cell.classList.remove("taken");
   });
+
+  // Remet la vidéo au début et relance la lecture
+  if (video) {
+    video.pause();
+    video.currentTime = 0;
+  }
 }
 
 function createBoard() {
